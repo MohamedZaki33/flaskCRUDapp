@@ -140,7 +140,6 @@ def add_invoice():
             return "Error: The number of amounts, prices, and item names do not match", 400
 
         total_amount = 0.0  # Initialize total amount
-ssss
         # Create invoice items
         for amount, price, item_name in zip(amounts, prices, item_names):
             amount = int(amount)
