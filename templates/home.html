@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manage System</title>
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .card-body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Manage System</h1>
+<br><br>
+    <div class="row">
+        <!-- Card for Managing Employees -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Employees</h5>
+                    <p class="card-text">View and manage all employees in the system.</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-success">Go to Manage Employees</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Managing Invoices -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Invoices</h5>
+                    <p class="card-text">View, edit, and delete invoices.</p>
+                    <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">Go to Manage Invoices</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Card for Managing Clients -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Clients</h5>
+                    <p class="card-text">View and manage clients.</p>
+                    <a href="{{ url_for('list_clients') }}" class="btn btn-info">Go to Manage Clients</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Adding a New Invoice -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add New Invoice</h5>
+                    <p class="card-text">Create a new invoice for a client.</p>
+                    <a href="{{ url_for('add_invoice') }}" class="btn btn-warning">Add New Invoice</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

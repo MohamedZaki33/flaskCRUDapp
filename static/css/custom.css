@@ -1,0 +1,51 @@
+/* static/css/custom.css */
+
+.jumbotron {
+    background-color: #f8f9fa;
+    padding: 2rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #343a40;
+}
+
+.table-dark {
+    background-color: #454d55;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.card-container {
+    max-width: 500px;
+    max-height: 2000px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 2rem;
+}
+.card2-body {
+    padding: 2rem;
+}
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
