@@ -22,7 +22,7 @@
 <body>
 <div class="container">
     <h1 class="text-center">Manage System</h1>
-<br><br>
+    <br><br>
     <div class="row">
         <!-- Card for Managing Employees -->
         <div class="col-md-6 mb-4">
@@ -66,6 +66,19 @@
                     <h5 class="card-title">Add New Invoice</h5>
                     <p class="card-text">Create a new invoice for a client.</p>
                     <a href="{{ url_for('add_invoice') }}" class="btn btn-warning">Add New Invoice</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Card for Managing Suppliers -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Suppliers</h5>
+                    <p class="card-text">View and manage all suppliers in the system.</p>
+                    <a href="{{ url_for('suppliers') }}" class="btn btn-dark">Go to Manage Suppliers</a>
                 </div>
             </div>
         </div>

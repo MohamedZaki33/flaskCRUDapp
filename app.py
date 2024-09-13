@@ -23,7 +23,7 @@ class Employee(db.Model):
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(120), unique=False, nullable=False)
+    address = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(15), nullable=False)
 
     def __repr__(self):
@@ -53,14 +53,59 @@ class InvoiceItem(db.Model):
     def __repr__(self):
         return f'<InvoiceItem {self.id} - {self.total}>'
 
-    # Automatically calculate the total based on amount and price
     @staticmethod
     def calculate_total(amount, price):
         return amount * price
 
 
+class Supplier(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+
+
 with app.app_context():
     db.create_all()
+
+
+@app.route('/suppliers')
+def suppliers():
+    suppliers = Supplier.query.all()
+    return render_template('suppliers.html', suppliers=suppliers)
+
+
+@app.route('/add_supplier', methods=['POST'])
+def add_supplier():
+    name = request.form['name']
+    address = request.form['address']
+    phone = request.form['phone']
+
+    new_supplier = Supplier(name=name, address=address, phone=phone)
+    db.session.add(new_supplier)
+    db.session.commit()
+
+    return redirect(url_for('suppliers'))
+
+
+@app.route('/edit_supplier/<int:id>', methods=['GET', 'POST'])
+def edit_supplier(id):
+    supplier = Supplier.query.get_or_404(id)
+
+    if request.method == 'POST':
+        supplier.name = request.form['name']
+        supplier.address = request.form['address']
+        supplier.phone = request.form['phone']
+        db.session.commit()
+        return redirect(url_for('suppliers'))
+
+
+@app.route('/delete_supplier/<int:id>', methods=['POST'])
+def delete_supplier(id):
+    supplier = Supplier.query.get_or_404(id)
+    db.session.delete(supplier)
+    db.session.commit()
+    return redirect(url_for('suppliers'))
 
 
 @app.route('/')
@@ -74,7 +119,7 @@ def index():
     return render_template('index.html', employees=employees)
 
 
-@app.route('/add', methods=['POST'])
+@app.route('/add_employee', methods=['POST'])
 def add_employee():
     name = request.form.get('name')
     email = request.form.get('email')
@@ -125,45 +170,38 @@ def add_invoice():
     if request.method == 'POST':
         client_id = request.form.get('client_id')
 
-        # Create the invoice
         new_invoice = Invoice(client_id=client_id)
         db.session.add(new_invoice)
         db.session.commit()
 
-        # Retrieve item data from the form
         amounts = request.form.getlist('amount[]')
         prices = request.form.getlist('price[]')
-        item_names = request.form.getlist('item_name[]')  # Note the [] here
+        item_names = request.form.getlist('item_name[]')
 
-        # Ensure the lengths match
         if len(amounts) != len(prices) or len(amounts) != len(item_names):
             return "Error: The number of amounts, prices, and item names do not match", 400
 
-        total_amount = 0.0  # Initialize total amount
-        # Create invoice items
+        total_amount = 0.0
         for amount, price, item_name in zip(amounts, prices, item_names):
             amount = int(amount)
             price = float(price)
             total = InvoiceItem.calculate_total(amount, price)
-            total_amount += total  # Update total amount
+            total_amount += total
 
             new_item = InvoiceItem(invoice_id=new_invoice.id, amount=amount, price=price, item_name=item_name,
                                    total=total)
             db.session.add(new_item)
 
-        # Update the invoice with the total amount
         new_invoice.total_amount = total_amount
         db.session.commit()
 
-        # Redirect to the invoice details page after creation
         return redirect(url_for('view_invoice', id=new_invoice.id))
 
-    # If it's a GET request, render the form to add an invoice
     clients = Client.query.all()
     return render_template('add_invoice.html', clients=clients)
 
 
-@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+@app.route('/edit_employee/<int:id>', methods=['GET', 'POST'])
 def edit_employee(id):
     employee = Employee.query.get(id)
 
@@ -175,7 +213,7 @@ def edit_employee(id):
         return redirect(url_for('index'))
 
 
-@app.route('/delete/<int:id>')
+@app.route('/delete_employee/<int:id>')
 def delete_employee(id):
     employee = Employee.query.get(id)
     db.session.delete(employee)
@@ -183,7 +221,6 @@ def delete_employee(id):
     return redirect(url_for('index'))
 
 
-# Edit client (Update)
 @app.route('/clients/edit/<int:id>', methods=['GET', 'POST'])
 def edit_client(id):
     client = Client.query.get_or_404(id)
@@ -196,10 +233,7 @@ def edit_client(id):
         db.session.commit()
         return redirect(url_for('list_clients'))
 
-    return render_template('edit_client.html', client=client)
 
-
-# Delete client (Delete)
 @app.route('/clients/delete/<int:id>', methods=['POST'])
 def delete_client(id):
     client = Client.query.get_or_404(id)
