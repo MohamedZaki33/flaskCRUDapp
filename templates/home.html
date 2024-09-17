@@ -11,10 +11,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
-        body {
-            background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
-        }
-
+    body {
+        background: url('{{ url_for("static", filename="images/skulls-1920x1080.png") }}') no-repeat center center fixed;
+        background-size: cover;
+    }
+{#https://www.transparenttextures.com/patterns/dimension.png#}
         .container {
             margin-top: 50px;
         }
@@ -38,7 +39,7 @@
         .logo-container h1 {
             margin-top: 10px;
             font-size: 2rem;
-            color: #333;
+            color: #cec9c9;
         }
 
         .cards-container {
@@ -76,7 +77,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
                 <h5 class="card-title">إدارة الموظفين</h5>
-                <p class="card-text">عرض وإدارة جميع الموظفين في النظام.</p>
+                <p class="card-text">عرض وإدارة جميع الموظفين </p>
                 <a href="{{ url_for('index') }}" class="btn btn-success">اذهب إلى إدارة الموظفين</a>
             </div>
         </div>
@@ -85,7 +86,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
                 <h5 class="card-title">إدارة الفواتير</h5>
-                <p class="card-text">عرض وتعديل وحذف الفواتير.</p>
+                <p class="card-text">عرض وتعديل وحذف الفواتير</p>
                 <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">اذهب إلى إدارة الفواتير</a>
             </div>
         </div>
@@ -94,7 +95,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
                 <h5 class="card-title">إدارة العملاء</h5>
-                <p class="card-text">عرض وإدارة العملاء.</p>
+                <p class="card-text">عرض وإدارة العملاء</p>
                 <a href="{{ url_for('list_clients') }}" class="btn btn-info">اذهب إلى إدارة العملاء</a>
             </div>
         </div>
@@ -103,7 +104,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
                 <h5 class="card-title">إدارة الموردين</h5>
-                <p class="card-text">عرض وإدارة جميع الموردين في النظام.</p>
+                <p class="card-text">عرض وإدارة جميع الموردين </p>
                 <a href="{{ url_for('suppliers') }}" class="btn btn-dark">اذهب إلى إدارة الموردين</a>
             </div>
         </div>
@@ -112,7 +113,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
                 <h5 class="card-title">إدارة المدفوعات</h5>
-                <p class="card-text">عرض وإدارة المدفوعات المختلفة في النظام.</p>
+                <p class="card-text">عرض وإدارة المدفوعات المختلفة </p>
                 <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
             </div>
         </div>
@@ -121,7 +122,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
                 <h5 class="card-title">إدارة الإرجاعات</h5>
-                <p class="card-text">عرض وإدارة الإرجاعات المختلفة في النظام.</p>
+                <p class="card-text">عرض وإدارة الإرجاعات المختلفة </p>
                 <a href="{{ url_for('list_returns') }}" class="btn btn-secondary">اذهب إلى إدارة الإرجاعات</a>
             </div>
         </div>
