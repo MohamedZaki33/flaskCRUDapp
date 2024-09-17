@@ -6,7 +6,10 @@
     <title>كشف حساب العميل</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
+
         body {
+            background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             direction: rtl;
@@ -108,7 +111,8 @@
     <p><span class="label">المبلغ الإجمالي للمبيعات:</span> ${{ total_amount_owed }}</p>
     <p><span class="label">المبلغ الإجمالي المدفوع:</span> ${{ total_amount_paid }}</p>
     <p><span class="label">إجمالي المرتجعات:</span> ${{ total_returns }}</p>
-    <p><span class="label">المبلغ الإجمالي المتبقي:</span> ${{ total_amount_owed - total_amount_paid - total_returns}}</p>
+    <p><span class="label">المبلغ الإجمالي المتبقي:</span> ${{ total_amount_owed - total_amount_paid - total_returns }}
+    </p>
 
     {#    <p><span class="label">إجمالي الخصومات:</span> ${{ total_discounts }}</p>#}
     <div class="text-center print-btn">

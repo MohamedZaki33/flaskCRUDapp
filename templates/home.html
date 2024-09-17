@@ -11,98 +11,118 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
+        body {
+            background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
+        }
+
         .container {
             margin-top: 50px;
         }
 
-        .card-body {
+        .logo-container {
             text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container img {
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        .logo-container h1 {
+            margin-top: 10px;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            margin: 10px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            border-color: #007bff;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Ryan Pack</h1>
-    <br><br>
-    <div class="row">
+    <!-- Company Logo and Name -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Company Logo">
+        <h1>Ryan Pack</h1>
+    </div>
+
+    <!-- Cards Around the Center -->
+    <div class="cards-container">
         <!-- Card for Managing Employees -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إدارة الموظفين</h5>
-                    <p class="card-text">عرض وإدارة جميع الموظفين في النظام.</p>
-                    <a href="{{ url_for('index') }}" class="btn btn-success">اذهب إلى إدارة الموظفين</a>
-                </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">إدارة الموظفين</h5>
+                <p class="card-text">عرض وإدارة جميع الموظفين في النظام.</p>
+                <a href="{{ url_for('index') }}" class="btn btn-success">اذهب إلى إدارة الموظفين</a>
             </div>
         </div>
 
         <!-- Card for Managing Invoices -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إدارة الفواتير</h5>
-                    <p class="card-text">عرض وتعديل وحذف الفواتير.</p>
-                    <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">اذهب إلى إدارة الفواتير</a>
-                </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">إدارة الفواتير</h5>
+                <p class="card-text">عرض وتعديل وحذف الفواتير.</p>
+                <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">اذهب إلى إدارة الفواتير</a>
             </div>
         </div>
-    </div>
 
-    <div class="row">
         <!-- Card for Managing Clients -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إدارة العملاء</h5>
-                    <p class="card-text">عرض وإدارة العملاء.</p>
-                    <a href="{{ url_for('list_clients') }}" class="btn btn-info">اذهب إلى إدارة العملاء</a>
-                </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">إدارة العملاء</h5>
+                <p class="card-text">عرض وإدارة العملاء.</p>
+                <a href="{{ url_for('list_clients') }}" class="btn btn-info">اذهب إلى إدارة العملاء</a>
             </div>
         </div>
 
-        <!-- Card for Adding a New Invoice -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إضافة فاتورة جديدة</h5>
-                    <p class="card-text">إنشاء فاتورة جديدة لعميل.</p>
-                    <a href="{{ url_for('add_invoice') }}" class="btn btn-warning">أضف فاتورة جديدة</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
         <!-- Card for Managing Suppliers -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إدارة الموردين</h5>
-                    <p class="card-text">عرض وإدارة جميع الموردين في النظام.</p>
-                    <a href="{{ url_for('suppliers') }}" class="btn btn-dark">اذهب إلى إدارة الموردين</a>
-                </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">إدارة الموردين</h5>
+                <p class="card-text">عرض وإدارة جميع الموردين في النظام.</p>
+                <a href="{{ url_for('suppliers') }}" class="btn btn-dark">اذهب إلى إدارة الموردين</a>
             </div>
         </div>
 
         <!-- Card for Managing Payments -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إدارة المدفوعات</h5>
-                    <p class="card-text">عرض وإدارة المدفوعات المختلفة في النظام.</p>
-                    <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
-                </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">إدارة المدفوعات</h5>
+                <p class="card-text">عرض وإدارة المدفوعات المختلفة في النظام.</p>
+                <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
             </div>
         </div>
 
         <!-- Card for Managing Returns -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">إدارة الإرجاعات</h5>
-                    <p class="card-text">عرض وإدارة الإرجاعات المختلفة في النظام.</p>
-                    <a href="{{ url_for('list_returns') }}" class="btn btn-secondary">اذهب إلى إدارة الإرجاعات</a>
-                </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">إدارة الإرجاعات</h5>
+                <p class="card-text">عرض وإدارة الإرجاعات المختلفة في النظام.</p>
+                <a href="{{ url_for('list_returns') }}" class="btn btn-secondary">اذهب إلى إدارة الإرجاعات</a>
             </div>
         </div>
     </div>
