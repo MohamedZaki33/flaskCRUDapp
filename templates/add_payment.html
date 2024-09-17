@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة دفعة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        select, input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .back-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<br><br><br><br>
+    <div class="container">
+        <h1>إضافة دفعة</h1>
+        <form method="POST" action="{{ url_for('add_payment') }}">
+            <label for="client_id">العميل:</label>
+            <select id="client_id" name="client_id" required>
+                <option value="">اختر عميلاً</option>
+                {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client.name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <label for="amount">المبلغ:</label>
+            <input type="text" id="amount" name="amount" required>
+            <br><br>
+            <button type="submit">إضافة دفعة</button>
+        </form>
+        <div class="back-link">
+            <a href="{{ url_for('list_clients') }}">العودة إلى العملاء</a>
+        </div>
+    </div>
+</body>
+</html>

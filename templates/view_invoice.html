@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Details</title>
+    <title>تفاصيل الفاتورة</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
+            direction: rtl; /* لضبط اتجاه النصوص من اليمين لليسار */
         }
 
         .container {
@@ -29,9 +30,8 @@
 
         .invoice-header .company-name {
             flex: 1;
-            margin-left: 250px;
-            {#text-align: center;#}
-            font-size: 24px;
+            margin-right: 2px;
+        {#text-align: center;#} font-size: 24px;
         }
 
         .invoice-header img {
@@ -84,31 +84,33 @@
         </div>
     </div>
     <br>
-    <h1 class="invoice-address">العنوان : برج الهنا (ب) المريويطية فيصل نزلة الدائري بجوار رسلان </h1>
-    <h1 class="invoice-address">رقم التليفون : 01009678029</h1>
+    <h1 class="invoice-address">العنوان: برج الهنا (ب) المريويطية فيصل نزلة الدائري بجوار رسلان</h1>
+    <h1 class="invoice-address">رقم التليفون: 01009678029</h1>
     <br><br>
 
-    <h2 class="text-center"> {{ invoice.id }} : رقم الفاتورة </h2>
-    <p class="text-right">اسم العميل : {{ invoice.client.name }} </p>
+    <h2 class="text-center">رقم الفاتورة: {{ invoice.id }} </h2>
+    <p class="text-right">اسم العميل: {{ invoice.client.name }}</p>
     <p class="text-right">رقم التليفون الخاص بالعميل: {{ invoice.client.phone }}</p>
-    <p class="text-right"> {{ invoice.date_created.strftime('%Y-%m-%d %H:%M:%S') }} : تاريخ الفاتورة </p>
+    <p class="text-right"> تاريخ الفاتورة: {{ invoice.date_created.strftime('%Y-%m-%d') }} </p>
 
     <div class="invoice-details">
-        <h3 class="text-center">Items</h3>
+        <h3 class="text-center">العناصر</h3>
         <table class="table table-striped invoice-items">
             <thead>
             <tr>
-                <th>Amount</th>
-                <th>Price</th>
-                <th>Total</th>
+                <th>الصنف</th>
+                <th>الكمية</th>
+                <th>السعر</th>
+                <th>الإجمالي</th>
             </tr>
             </thead>
             <tbody>
             {% for item in invoice.items %}
                 <tr>
+                    <td>{{ item.item_name }}</td>
                     <td>{{ item.amount }}</td>
-                    <td>${{ item.price }}</td>
-                    <td>${{ item.total }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.total }}</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -116,7 +118,7 @@
     </div>
 
     <div class="total-card">
-        <h4> ${{ invoice.total_amount }} : الاجمالي الفرعي للفاتورة </h4>
+        <h4>الإجمالي الفرعي للفاتورة: {{ invoice.total_amount }}</h4>
     </div>
 
     <div class="text-center print-btn">
@@ -124,7 +126,7 @@
     </div>
 
     <div class="text-center back-btn">
-        <a href="{{ url_for('home') }}" class="btn btn-secondary">العودة الي الصفحة الرئيسية</a>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">العودة إلى الصفحة الرئيسية</a>
     </div>
 </div>
 

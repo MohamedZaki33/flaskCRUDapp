@@ -63,6 +63,39 @@ class Supplier(db.Model):
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
+    money_owed = db.Column(db.Float, nullable=False, default=0.0)  # الفلوس اللي ليه
+    money_paid = db.Column(db.Float, nullable=False, default=0.0)  # الفلوس اللي خدها
+
+    def __repr__(self):
+        return f'<Supplier {self.name}>'
+
+
+class Return(db.Model):
+    __tablename__ = 'return'
+
+    id = db.Column(db.Integer, primary_key=True)
+    invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    item_name = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    amount_returned = db.Column(db.Float, nullable=False)
+
+    # relationships
+    invoice = db.relationship('Invoice', backref=db.backref('returns', lazy=True))
+
+    def __repr__(self):
+        return f'<Return {self.item_name}>'
+
+
+class Payment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
+    client = db.relationship('Client', backref='payments')
+    amount = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Payment {self.id}>'
 
 
 with app.app_context():
@@ -241,6 +274,62 @@ def delete_client(id):
     db.session.commit()
 
     return redirect(url_for('list_clients'))
+
+
+@app.route('/client_statement/<int:id>')
+def client_statement(id):
+    client = Client.query.get_or_404(id)
+    invoices = Invoice.query.filter_by(client_id=id).all()
+    payments = Payment.query.filter_by(client_id=id).all()
+    returns = Return.query.filter_by(invoice_id=id).all()  # تحديث الاستعلام للمرتجعات
+
+    invoice_items = []
+    for invoice in invoices:
+        for item in invoice.items:
+            invoice_items.append({
+                'invoice_id': invoice.id,
+                'item_name': item.item_name,
+                'amount': item.amount,
+                'price': item.price,
+                'total': item.total,
+                'date': invoice.date_created  # إضافة تاريخ الفاتورة
+            })
+
+    total_amount_owed = sum(invoice.total_amount for invoice in invoices)
+    total_amount_paid = sum(payment.amount for payment in payments)
+    total_returns = sum(ret.amount_returned for ret in returns)  # إجمالي المرتجعات
+    # total_discounts = sum(invoice.discounts for invoice in invoices)  # إجمالي الخصومات
+
+    return render_template('client_statement.html', client=client, invoices=invoices,
+                           total_amount_owed=total_amount_owed, total_amount_paid=total_amount_paid,
+                           total_returns=total_returns,
+                           invoice_items=invoice_items, current_year=datetime.utcnow().year)
+
+
+@app.route('/add_payment', methods=['GET', 'POST'])
+def add_payment():
+    if request.method == 'POST':
+        client_id = request.form.get('client_id')
+        amount = request.form.get('amount')
+
+        # Validate input
+        if not client_id or not amount:
+            return "Error: Client ID and amount are required", 400
+
+        try:
+            amount = float(amount)
+        except ValueError:
+            return "Error: Amount must be a valid number", 400
+
+        # Create a new Payment object
+        new_payment = Payment(client_id=client_id, amount=amount)
+        db.session.add(new_payment)
+        db.session.commit()
+
+        return redirect(url_for('list_clients'))  # Redirect to a page where you can view all clients or payments
+
+    clients = Client.query.all()
+    return render_template('add_payment.html', clients=clients)
 
 
 if __name__ == '__main__':

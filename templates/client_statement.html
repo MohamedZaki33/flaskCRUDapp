@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كشف حساب العميل</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            direction: rtl;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .header, .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header h1, .footer p {
+            margin: 0;
+        }
+
+        .client-info {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .client-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .client-info p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .client-info .label {
+            font-weight: bold;
+        }
+
+        .invoice-items th, .invoice-items td {
+            text-align: center;
+        }
+
+        .total-card {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .print-btn, .back-btn {
+            margin-top: 20px;
+        }
+
+        @media print {
+            .print-btn, .back-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<br>
+<div class="header">
+    <h1>كشف حساب العميل</h1>
+</div>
+<div class="container">
+    <div class="client-info">
+        <h2>معلومات العميل</h2>
+        <p><span class="label">الاسم:</span> {{ client.name }}</p>
+    </div>
+
+    <h2 class="text-center">تفاصيل العناصر لكل الفواتير</h2>
+    <table class="table table-striped invoice-items">
+        <thead>
+        <tr>
+            <th>التاريخ</th>
+            <th>رقم الفاتورة</th>
+            <th>اسم العنصر</th>
+            <th>الكمية</th>
+            <th>السعر</th>
+            <th>الإجمالي</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in invoice_items %}
+            <tr>
+                <td>{{ item.date.strftime('%Y-%m-%d') }}</td> <!-- عرض التاريخ -->
+                <td>{{ item.invoice_id }}</td>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.total }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p><span class="label">المبلغ الإجمالي للمبيعات:</span> ${{ total_amount_owed }}</p>
+    <p><span class="label">المبلغ الإجمالي المدفوع:</span> ${{ total_amount_paid }}</p>
+    <p><span class="label">إجمالي المرتجعات:</span> ${{ total_returns }}</p>
+    <p><span class="label">المبلغ الإجمالي المتبقي:</span> ${{ total_amount_owed - total_amount_paid - total_returns}}</p>
+
+    {#    <p><span class="label">إجمالي الخصومات:</span> ${{ total_discounts }}</p>#}
+    <div class="text-center print-btn">
+        <button class="btn btn-primary" onclick="window.print()">طباعة كشف الحساب</button>
+    </div>
+
+    <div class="text-center back-btn">
+        <a href="{{ url_for('list_clients') }}" class="btn btn-secondary">العودة إلى قائمة العملاء</a>
+    </div>
+</div>
+<br><br>
+<div class="footer">
+    <p>&copy; {{ current_year }} Ryan Pack</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
