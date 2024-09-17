@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Invoice</title>
+    <title>إضافة فاتورة</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
@@ -30,10 +30,10 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="mb-4">Add Invoice</h1>
+    <h1 class="mb-4">إضافة فاتورة</h1>
     <form action="{{ url_for('add_invoice') }}" method="POST">
         <div class="form-group">
-            <label for="client_id">Client</label>
+            <label for="client_id">العميل</label>
             <select name="client_id" id="client_id" class="form-control">
                 {% for client in clients %}
                     <option value="{{ client.id }}">{{ client.name }}</option>
@@ -41,48 +41,48 @@
             </select>
         </div>
 
-        <!-- Invoice Items Section -->
+        <!-- قسم عناصر الفاتورة -->
         <div id="invoice-items">
             <div class="invoice-item-card">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Item Name</label>
+                            <label>اسم العنصر</label>
                             <input type="text" name="item_name[]" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Amount</label>
+                            <label>الكمية</label>
                             <input type="number" name="amount[]" class="form-control" required
                                    oninput="updateTotal(this)">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Price</label>
+                            <label>السعر</label>
                             <input type="number" step="0.01" name="price[]" class="form-control" required
                                    oninput="updateTotal(this)">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Total</label>
+                            <label>الإجمالي</label>
                             <input type="text" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="col-md-12 d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button>
+                        <button type="button" class="btn btn-danger" onclick="removeItem(this)">إزالة</button>
                     </div>
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+        <button type="button" class="btn btn-primary" onclick="addItem()">إضافة عنصر</button>
         <br><br>
 
-        <!-- Submit and Cancel buttons -->
-        <button type="submit" class="btn btn-success">Create Invoice</button>
-        <a href="{{ url_for('list_invoices') }}" class="btn btn-secondary float-right">Cancel</a>
+        <!-- أزرار الإرسال والإلغاء -->
+        <button type="submit" class="btn btn-success">إنشاء فاتورة</button>
+        <a href="{{ url_for('list_invoices') }}" class="btn btn-secondary float-right">إلغاء</a>
     </form>
 </div>
 
@@ -110,30 +110,31 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Item Name</label>
+                        <label>اسم العنصر</label>
                         <input type="text" name="item_name[]" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Amount</label>
+                        <label>الكمية</label>
                         <input type="number" name="amount[]" class="form-control" required oninput="updateTotal(this)">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Price</label>
+                        <label>السعر</label>
                         <input type="number" step="0.01" name="price[]" class="form-control" required oninput="updateTotal(this)">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Total</label>
+                        <label>الإجمالي</label>
                         <input type="text" class="form-control" readonly>
                     </div>
                 </div>
+<br>
                 <div class="col-md-12 d-flex align-items-center justify-content-end">
-                    <button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button>
+                    <button type="button" class="btn btn-danger" onclick="removeItem(this)">إزالة</button>
                 </div>
             </div>
         `;

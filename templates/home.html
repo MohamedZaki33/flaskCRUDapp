@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage System</title>
+    <title>نظام الإدارة</title>
     <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -21,16 +21,16 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Manage System</h1>
+    <h1 class="text-center">Ryan Pack</h1>
     <br><br>
     <div class="row">
         <!-- Card for Managing Employees -->
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Employees</h5>
-                    <p class="card-text">View and manage all employees in the system.</p>
-                    <a href="{{ url_for('index') }}" class="btn btn-success">Go to Manage Employees</a>
+                    <h5 class="card-title">إدارة الموظفين</h5>
+                    <p class="card-text">عرض وإدارة جميع الموظفين في النظام.</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-success">اذهب إلى إدارة الموظفين</a>
                 </div>
             </div>
         </div>
@@ -39,9 +39,9 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Invoices</h5>
-                    <p class="card-text">View, edit, and delete invoices.</p>
-                    <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">Go to Manage Invoices</a>
+                    <h5 class="card-title">إدارة الفواتير</h5>
+                    <p class="card-text">عرض وتعديل وحذف الفواتير.</p>
+                    <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">اذهب إلى إدارة الفواتير</a>
                 </div>
             </div>
         </div>
@@ -52,9 +52,9 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Clients</h5>
-                    <p class="card-text">View and manage clients.</p>
-                    <a href="{{ url_for('list_clients') }}" class="btn btn-info">Go to Manage Clients</a>
+                    <h5 class="card-title">إدارة العملاء</h5>
+                    <p class="card-text">عرض وإدارة العملاء.</p>
+                    <a href="{{ url_for('list_clients') }}" class="btn btn-info">اذهب إلى إدارة العملاء</a>
                 </div>
             </div>
         </div>
@@ -63,9 +63,9 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Add New Invoice</h5>
-                    <p class="card-text">Create a new invoice for a client.</p>
-                    <a href="{{ url_for('add_invoice') }}" class="btn btn-warning">Add New Invoice</a>
+                    <h5 class="card-title">إضافة فاتورة جديدة</h5>
+                    <p class="card-text">إنشاء فاتورة جديدة لعميل.</p>
+                    <a href="{{ url_for('add_invoice') }}" class="btn btn-warning">أضف فاتورة جديدة</a>
                 </div>
             </div>
         </div>
@@ -76,9 +76,20 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Suppliers</h5>
-                    <p class="card-text">View and manage all suppliers in the system.</p>
-                    <a href="{{ url_for('suppliers') }}" class="btn btn-dark">Go to Manage Suppliers</a>
+                    <h5 class="card-title">إدارة الموردين</h5>
+                    <p class="card-text">عرض وإدارة جميع الموردين في النظام.</p>
+                    <a href="{{ url_for('suppliers') }}" class="btn btn-dark">اذهب إلى إدارة الموردين</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Managing Payments -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">إدارة المدفوعات</h5>
+                    <p class="card-text">عرض وإدارة المدفوعات المختلفة في النظام.</p>
+                    <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
                 </div>
             </div>
         </div>

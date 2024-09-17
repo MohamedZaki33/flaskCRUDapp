@@ -306,6 +306,13 @@ def client_statement(id):
                            invoice_items=invoice_items, current_year=datetime.utcnow().year)
 
 
+@app.route('/payments')
+def list_payments():
+    # Fetch all payments from the database
+    payments = Payment.query.all()
+    return render_template('list_payments.html', payments=payments)
+
+
 @app.route('/add_payment', methods=['GET', 'POST'])
 def add_payment():
     if request.method == 'POST':
