@@ -14,6 +14,7 @@
         .container {
             margin-top: 50px;
         }
+
         .card-body {
             text-align: center;
         }
@@ -90,6 +91,17 @@
                     <h5 class="card-title">إدارة المدفوعات</h5>
                     <p class="card-text">عرض وإدارة المدفوعات المختلفة في النظام.</p>
                     <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Managing Returns -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">إدارة الإرجاعات</h5>
+                    <p class="card-text">عرض وإدارة الإرجاعات المختلفة في النظام.</p>
+                    <a href="{{ url_for('list_returns') }}" class="btn btn-secondary">اذهب إلى إدارة الإرجاعات</a>
                 </div>
             </div>
         </div>

@@ -339,5 +339,39 @@ def add_payment():
     return render_template('add_payment.html', clients=clients)
 
 
+@app.route('/returns')
+def list_returns():
+    returns = Return.query.all()
+    return render_template('list_returns.html', returns=returns)
+
+
+@app.route('/add_return', methods=['GET', 'POST'])
+def add_return():
+    if request.method == 'POST':
+        # Extract data from the form
+        invoice_id = request.form['invoice_id']
+        item_name = request.form['item_name']
+        amount = request.form['amount']
+        amount_returned = request.form['amount_returned']
+
+        # Create a new Return object
+        new_return = Return(
+            invoice_id=invoice_id,
+            item_name=item_name,
+            amount=amount,
+            amount_returned=amount_returned
+        )
+
+        # Add to the database
+        db.session.add(new_return)
+        db.session.commit()
+
+        return redirect(url_for('list_returns'))
+
+    # Fetch invoices for the form
+    invoices = Invoice.query.all()
+    return render_template('add_return.html', invoices=invoices)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

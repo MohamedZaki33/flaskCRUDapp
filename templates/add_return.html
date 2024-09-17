@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>إضافة إرجاع</title>
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">إضافة إرجاع</h1>
+    <form action="{{ url_for('add_return') }}" method="POST">
+        <div class="form-group">
+            <label for="invoice_id">الفاتورة</label>
+            <select name="invoice_id" id="invoice_id" class="form-control">
+                {% for invoice in invoices %}
+                    <option value="{{ invoice.id }}">{{ invoice.id }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="item_name">اسم العنصر</label>
+            <input type="text" name="item_name" id="item_name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="amount">الكمية</label>
+            <input type="number" name="amount" id="amount" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="amount_returned">المبلغ المعاد</label>
+            <input type="number" step="0.01" name="amount_returned" id="amount_returned" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">إضافة إرجاع</button>
+    </form>
+</div>
+</body>
+</html>
