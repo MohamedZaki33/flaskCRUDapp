@@ -33,7 +33,8 @@
         </thead>
         <tbody>
         {% for supplier in suppliers %}
-            <tr>
+            ############################################# edit here ###########
+            <tr class="clickable-row" data-href="{{ url_for('client_payments', client_id=supplier.id) }}">
                 <td>{{ supplier.id }}</td>
                 <td>{{ supplier.name }}</td>
                 <td>{{ supplier.address }}</td>
@@ -133,6 +134,16 @@
     }
 
 
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('.clickable-row');
+        rows.forEach(function (row) {
+            row.addEventListener('click', function () {
+                window.location.href = this.getAttribute('data-href');
+            });
+        });
+    });
 </script>
 </body>
 </html>

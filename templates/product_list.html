@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المنتجات</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
+            direction: rtl; /* Right-to-left layout */
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center">قائمة المنتجات</h2>
+
+    <!-- Button to trigger the Add Product Modal -->
+    <button type="button" class="btn btn-success mb-3 float-left" data-toggle="modal" data-target="#addModal">إضافة منتج
+        جديد
+    </button>
+
+    <!-- Table to display products -->
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>اسم المنتج</th>
+            <th>الكمية</th>
+            <th>من المورد</th>
+            <th>إلى العميل</th>
+            <th>سعر من المورد</th>
+            <th>إجراء</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.amount }}</td>
+                <td>{{ product.supplier.name }}</td>
+                <td>{{ product.client.name }}</td>
+                <td>{{ product.price_from_supplier }}</td>
+                <td>
+
+                    <a href="javascript:void(0);" class="btn btn-warning"
+                       onclick="openEditModal({{ product.id }}, '{{ product.name }}', {{ product.amount }}, '{{ product.from_supplier.id }}', '{{ product.to_client.id }}', {{ product.price_from_supplier }})">تعديل</a>
+                    <form action="{{ url_for('delete_product', id=product.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد؟');">حذف
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('home') }}" class="btn btn-success mb-3">العودة إلى الصفحة الرئيسية</a>
+</div>
+
+<!-- Add Product Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">إضافة منتج جديد</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="إغلاق">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('add_product') }}" method="POST">
+                    <div class="form-group">
+                        <label for="name">اسم المنتج:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">الكمية:</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="from_supplier">من المورد:</label>
+                        <select class="form-control" id="from_supplier" name="from_supplier" required>
+                            {% for supplier in suppliers %}
+                                <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="to_client">إلى العميل:</label>
+                        <select class="form-control" id="to_client" name="to_client" required>
+                            {% for client in clients %}
+                                <option value="{{ client.id }}">{{ client.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price_from_supplier">سعر من المورد:</label>
+                        <input type="number" class="form-control" id="price_from_supplier" name="price_from_supplier"
+                               required step="0.01">
+                    </div>
+                    <button type="submit" class="btn btn-primary">إضافة المنتج</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="POST">
+                    <input type="hidden" id="edit_product_id" name="id">
+                    <div class="form-group">
+                        <label for="edit_name">Name:</label>
+                        <input type="text" class="form-control" id="edit_name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_from_supplier">من المورد:</label>
+                        <select class="form-control" id="edit_from_supplier" name="from_supplier" required>
+                            {% for supplier in suppliers %}
+                                <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_to_client">إلى العميل:</label>
+                        <select class="form-control" id="edit_to_client" name="to_client" required>
+                            {% for client in clients %}
+                                <option value="{{ client.id }}">{{ client.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_amount">الكمية:</label>
+                        <input type="number" class="form-control" id="edit_amount" name="amount" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit_price_from_supplier">Price from Supplier:</label>
+                        <input type="number" class="form-control" id="edit_price_from_supplier"
+                               name="price_from_supplier" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript and Bootstrap scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function openEditModal(id, name, amount, fromSupplier, toClient, price) {
+        $('#edit_product_id').val(id);
+        $('#edit_name').val(name);
+        $('#edit_amount').val(amount);  // Ensure this is correct
+        $('#edit_from_supplier').val(fromSupplier);
+        $('#edit_to_client').val(toClient);
+        $('#edit_price_from_supplier').val(price);
+        $('#editForm').attr('action', `/edit_product/${id}`);
+        $('#editModal').modal('show');
+    }
+
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -96,6 +96,21 @@ class Payment(db.Model):
 
     def __repr__(self):
         return f'<Payment {self.id}>'
+
+
+class Product(db.Model):
+    __tablename__ = 'products'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    from_supplier = db.Column(db.Integer, db.ForeignKey('supplier.id'), nullable=False)
+    to_client = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
+    price_from_supplier = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    supplier = db.relationship('Supplier', backref='products', lazy=True)
+    client = db.relationship('Client', backref='products', lazy=True)
 
 
 with app.app_context():
@@ -371,6 +386,79 @@ def add_return():
     # Fetch invoices for the form
     invoices = Invoice.query.all()
     return render_template('add_return.html', invoices=invoices)
+
+
+@app.route('/client/<int:client_id>/payments', methods=['GET'])
+def client_payments(client_id):
+    client = Client.query.get_or_404(client_id)
+    payments = Payment.query.filter_by(client_id=client_id).all()
+
+    payments_data = [
+        {
+            'id': payment.id,
+            'amount': payment.amount,
+            'date': payment.date.strftime('%Y-%m-%d'),
+            'status': payment.status,
+        } for payment in payments
+    ]
+
+    return jsonify(payments_data)
+
+
+@app.route('/products')
+def product_list():
+    products = Product.query.all()
+    suppliers = Supplier.query.all()  # Fetch suppliers
+    clients = Client.query.all()  # Fetch clients
+    return render_template('product_list.html', products=products, suppliers=suppliers, clients=clients)
+
+
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        amount = request.form.get('amount')
+        supplier = request.form.get('from_supplier')
+        client = request.form.get('to_client')
+        price_from_supplier = request.form.get('price_from_supplier')
+
+        new_product = Product(
+            name=name,
+            amount=amount,
+            from_supplier=supplier,
+            to_client=client,
+            price_from_supplier=price_from_supplier
+        )
+        db.session.add(new_product)
+        db.session.commit()
+
+        return redirect(url_for('product_list'))
+
+    suppliers = Supplier.query.all()
+    clients = Client.query.all()
+    return render_template('add_product.html', suppliers=suppliers, clients=clients)
+
+
+@app.route('/edit_product/<int:id>', methods=['POST'])
+def edit_product(id):
+    product = Product.query.get_or_404(id)
+
+    product.name = request.form.get('name')
+    product.amount = request.form.get('amount')
+    product.from_supplier = request.form.get('from_supplier')
+    product.to_client = request.form.get('to_client')
+    product.price_from_supplier = request.form.get('price_from_supplier')
+
+    db.session.commit()
+    return redirect(url_for('product_list'))
+
+
+@app.route('/delete_product/<int:id>', methods=['POST'])
+def delete_product(id):
+    product = Product.query.get_or_404(id)
+    db.session.delete(product)
+    db.session.commit()
+    return redirect(url_for('product_list'))
 
 
 if __name__ == '__main__':
