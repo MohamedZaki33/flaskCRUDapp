@@ -461,5 +461,16 @@ def delete_product(id):
     return redirect(url_for('product_list'))
 
 
+@app.route('/supplier_statement/<int:supplier_id>', methods=['GET'])
+def supplier_statement(supplier_id):
+    supplier = Supplier.query.get_or_404(supplier_id)
+    products = Product.query.filter_by(from_supplier=supplier_id).all()
+
+    # Calculate the total price from supplier
+    total_price = sum(product.price_from_supplier for product in products)
+
+    return render_template('supplier_statement.html', supplier=supplier, products=products, total_price=total_price)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

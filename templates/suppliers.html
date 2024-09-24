@@ -33,8 +33,9 @@
         </thead>
         <tbody>
         {% for supplier in suppliers %}
-            ############################################# edit here ###########
-            <tr class="clickable-row" data-href="{{ url_for('client_payments', client_id=supplier.id) }}">
+{#            <tr>/#}
+{#            ############################################# edit here ############}
+            <tr class="clickable-row" data-href="{{ url_for('supplier_statement', supplier_id=supplier.id) }}">
                 <td>{{ supplier.id }}</td>
                 <td>{{ supplier.name }}</td>
                 <td>{{ supplier.address }}</td>
@@ -42,11 +43,6 @@
                 <td>
                     <a href="javascript:void(0);" class="btn btn-warning"
                        onclick="openEditModal({{ supplier.id }}, '{{ supplier.name }}', '{{ supplier.address }}', '{{ supplier.phone }}')">Edit</a>
-                    <form action="{{ url_for('delete_supplier', id=supplier.id) }}" method="POST"
-                          style="display:inline;">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete
-                        </button>
-                    </form>
 
                 </td>
             </tr>

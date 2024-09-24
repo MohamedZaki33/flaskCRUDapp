@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كشف حساب المورد</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h2 {
+            color: #4CAF50; /* Dark green for the title */
+            margin-bottom: 30px;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #f8f9fa; /* Light gray for the header */
+            color: #333; /* Dark text for headers */
+        }
+
+        td {
+            background-color: #fff; /* White background for data cells */
+            color: #555; /* Dark gray text */
+        }
+
+        .header, .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header h1, .footer p {
+            margin: 0;
+        }
+
+        .no-products {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .no-products img {
+            width: 300px; /* Adjust as necessary */
+            max-width: 100%; /* Responsive image */
+        }
+
+        .client-info {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .client-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .client-info p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .client-info .label {
+            font-weight: bold;
+        }
+
+        .total-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4CAF50; /* Green color for total price */
+        }
+
+        .btn {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="client-info">
+        <br>
+        <div class="header">
+            <h1>كشف حساب المورد</h1>
+        </div>
+        <p><span class="text-center">الاسم:</span> {{ supplier.name }}</p>
+    </div>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>اسم المنتج</th>
+            <th>التاريخ</th>
+            <th>العميل</th>
+            <th>السعر من المورد</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if products %}
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.created_at.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ product.client.name if product.client else 'غير متوفر' }}</td>
+                    <td>{{ product.price_from_supplier }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" class="text-right total-price">المبلغ الإجمالي:  {{ total_price }}</td>
+{#                <td class="total-price">{{ total_price }}</td>#}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" class="text-center">
+                    <div class="no-products">
+                        <img src="/static/images/5.png" alt="No Products"/> <!-- Replace with your own image -->
+                        <p>لا توجد منتجات لعرضها</p>
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('suppliers') }}" class="btn float-right mb-3">العودة إلى الموردين</a>
+    <a href="{{ url_for('home') }}" class="btn mb-3">العودة إلى الصفحة الرئيسية</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
