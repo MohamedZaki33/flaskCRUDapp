@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Suppliers</title>
+    <title>إدارة الموردين</title>
     <style>
         body {
             background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
+        }
+
+        .header, .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header h1, .footer p {
+            margin: 0;
         }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-4">
-    <h2 class="text-center">Manage Suppliers</h2>
+    <br><br>
+    <div class="header">
+        <h2 class="text-center">إدارة الموردين</h2>
+    </div><br>
 
     <!-- Button to trigger the Add Supplier Modal -->
     <button type="button" class="btn btn-success mb-3 float-right" data-toggle="modal" data-target="#addModal">Add New
@@ -33,8 +47,7 @@
         </thead>
         <tbody>
         {% for supplier in suppliers %}
-{#            <tr>/#}
-{#            ############################################# edit here ############}
+
             <tr class="clickable-row" data-href="{{ url_for('supplier_statement', supplier_id=supplier.id) }}">
                 <td>{{ supplier.id }}</td>
                 <td>{{ supplier.name }}</td>

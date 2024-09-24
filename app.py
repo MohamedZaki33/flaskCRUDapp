@@ -296,7 +296,7 @@ def client_statement(id):
     client = Client.query.get_or_404(id)
     invoices = Invoice.query.filter_by(client_id=id).all()
     payments = Payment.query.filter_by(client_id=id).all()
-    returns = Return.query.filter_by(invoice_id=id).all()  # تحديث الاستعلام للمرتجعات
+    returns = Return.query.filter_by(invoice_id=id).all()  # Update returns query
 
     invoice_items = []
     for invoice in invoices:
@@ -307,18 +307,29 @@ def client_statement(id):
                 'amount': item.amount,
                 'price': item.price,
                 'total': item.total,
-                'date': invoice.date_created  # إضافة تاريخ الفاتورة
+                'date': invoice.date_created  # Add invoice date
             })
 
     total_amount_owed = sum(invoice.total_amount for invoice in invoices)
     total_amount_paid = sum(payment.amount for payment in payments)
-    total_returns = sum(ret.amount_returned for ret in returns)  # إجمالي المرتجعات
-    # total_discounts = sum(invoice.discounts for invoice in invoices)  # إجمالي الخصومات
+    total_returns = sum(ret.amount_returned for ret in returns)  # Total returns
+
+    # Include payments in the context
+    payment_details = [
+        {
+            'id': payment.id,
+            'amount': payment.amount,
+            'date': payment.date.strftime('%Y-%m-%d')  # Format the date for display
+        }
+        for payment in payments
+    ]
 
     return render_template('client_statement.html', client=client, invoices=invoices,
                            total_amount_owed=total_amount_owed, total_amount_paid=total_amount_paid,
                            total_returns=total_returns,
-                           invoice_items=invoice_items, current_year=datetime.utcnow().year)
+                           invoice_items=invoice_items, payment_details=payment_details,
+                           current_year=datetime.utcnow().year)
+
 
 
 @app.route('/payments')

@@ -6,8 +6,6 @@
     <title>كشف حساب العميل</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-
-
         body {
             background: url('https://www.transparenttextures.com/patterns/geometry.png') repeat;
             font-family: Arial, sans-serif;
@@ -70,6 +68,16 @@
                 display: none;
             }
         }
+
+        /* New CSS for payment table */
+        .payment-details {
+            margin-top: 20px;
+        }
+
+        .payments-table th, .payments-table td {
+            font-size: 14px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +106,7 @@
         <tbody>
         {% for item in invoice_items %}
             <tr>
-                <td>{{ item.date.strftime('%Y-%m-%d') }}</td> <!-- عرض التاريخ -->
+                <td>{{ item.date.strftime('%Y-%m-%d') }}</td>
                 <td>{{ item.invoice_id }}</td>
                 <td>{{ item.item_name }}</td>
                 <td>{{ item.amount }}</td>
@@ -108,13 +116,39 @@
         {% endfor %}
         </tbody>
     </table>
-    <p><span class="label">المبلغ الإجمالي للمبيعات:</span> ${{ total_amount_owed }}</p>
-    <p><span class="label">المبلغ الإجمالي المدفوع:</span> ${{ total_amount_paid }}</p>
-    <p><span class="label">إجمالي المرتجعات:</span> ${{ total_returns }}</p>
-    <p><span class="label">المبلغ الإجمالي المتبقي:</span> ${{ total_amount_owed - total_amount_paid - total_returns }}
-    </p>
 
-    {#    <p><span class="label">إجمالي الخصومات:</span> ${{ total_discounts }}</p>#}
+    <!-- Two-column layout for summary and payment details -->
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="text-center">تفاصيل الدفعات</h4>
+            <table class="table table-bordered payments-table">
+                <thead>
+                <tr>
+                    <th>التاريخ</th>
+                    <th>المبلغ</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for payment in payment_details %}
+                    <tr>
+                        <td>{{ payment.date }}</td>
+                        <td>{{ payment.amount }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <p><span class="label">المبلغ الإجمالي للمبيعات:</span> {{ total_amount_owed }}</p>
+            <p><span class="label">المبلغ الإجمالي المدفوع:</span> {{ total_amount_paid }}</p>
+            <p><span class="label">إجمالي المرتجعات:</span> {{ total_returns }}</p>
+            <p><span class="label">المبلغ الإجمالي المتبقي:</span>
+                {{ total_amount_owed - total_amount_paid - total_returns }}</p>
+        </div>
+
+
+    </div>
+
     <div class="text-center print-btn">
         <button class="btn btn-primary" onclick="window.print()">طباعة كشف الحساب</button>
     </div>
