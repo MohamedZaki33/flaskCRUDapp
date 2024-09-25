@@ -6,16 +6,17 @@
     <title>نظام الإدارة</title>
     <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
-    body {
-        background: url('{{ url_for("static", filename="images/skulls-1920x1080.png") }}') no-repeat center center fixed;
-        background-size: cover;
-    }
-{#https://www.transparenttextures.com/patterns/dimension.png#}
+        body {
+            background: url('{{ url_for("static", filename="images/skulls-1920x1080.png") }}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
         .container {
             margin-top: 50px;
         }
@@ -61,72 +62,87 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             border-color: #007bff;
         }
+
+        .logout-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- Company Logo and Name -->
-    <div class="logo-container">
-        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Company Logo">
-        <h1>Ryan Pack</h1>
+<br>
+    <!-- Logout Icon -->
+    <div class="logout-icon">
+        <button type="button" class="btn btn-link text-white" onclick="location.href='{{ url_for('logout') }}'">
+            <i class="fas fa-sign-out-alt fa-2x"></i>
+        </button>
     </div>
 
-    <!-- Cards Around the Center -->
-    <div class="cards-container">
-        <!-- Card for Managing Employees -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body text-center">
-                <h5 class="card-title">إدارة المنتجات</h5>
-                <p class="card-text">عرض وإدارة جميع المنتجان </p>
-                <a href="{{ url_for('product_list') }}" class="btn btn-success">اذهب إلى إدارة المنتجات</a>
-            </div>
+    <div class="container">
+        <!-- Company Logo and Name -->
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Company Logo">
+            <h1>Ryan Pack</h1>
         </div>
 
-        <!-- Card for Managing Invoices -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body text-center">
-                <h5 class="card-title">إدارة الفواتير</h5>
-                <p class="card-text">عرض وتعديل وحذف الفواتير</p>
-                <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">اذهب إلى إدارة الفواتير</a>
+        <!-- Cards Around the Center -->
+        <div class="cards-container">
+            <!-- Card for Managing Products -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إدارة المنتجات</h5>
+                    <p class="card-text">عرض وإدارة جميع المنتجان </p>
+                    <a href="{{ url_for('product_list') }}" class="btn btn-success">اذهب إلى إدارة المنتجات</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Card for Managing Clients -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body text-center">
-                <h5 class="card-title">إدارة العملاء</h5>
-                <p class="card-text">عرض وإدارة العملاء</p>
-                <a href="{{ url_for('list_clients') }}" class="btn btn-info">اذهب إلى إدارة العملاء</a>
+            <!-- Card for Managing Invoices -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إدارة الفواتير</h5>
+                    <p class="card-text">عرض وتعديل وحذف الفواتير</p>
+                    <a href="{{ url_for('list_invoices') }}" class="btn btn-primary">اذهب إلى إدارة الفواتير</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Card for Managing Suppliers -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body text-center">
-                <h5 class="card-title">إدارة الموردين</h5>
-                <p class="card-text">عرض وإدارة جميع الموردين </p>
-                <a href="{{ url_for('suppliers') }}" class="btn btn-dark">اذهب إلى إدارة الموردين</a>
+            <!-- Card for Managing Clients -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إدارة العملاء</h5>
+                    <p class="card-text">عرض وإدارة العملاء</p>
+                    <a href="{{ url_for('list_clients') }}" class="btn btn-info">اذهب إلى إدارة العملاء</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Card for Managing Payments -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body text-center">
-                <h5 class="card-title">إدارة المدفوعات</h5>
-                <p class="card-text">عرض وإدارة المدفوعات المختلفة </p>
-                <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
+            <!-- Card for Managing Suppliers -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إدارة الموردين</h5>
+                    <p class="card-text">عرض وإدارة جميع الموردين </p>
+                    <a href="{{ url_for('suppliers') }}" class="btn btn-dark">اذهب إلى إدارة الموردين</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Card for Managing Returns -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body text-center">
-                <h5 class="card-title">إدارة المرتجعات</h5>
-                <p class="card-text">عرض وإدارة المرتجعات المختلفة </p>
-                <a href="{{ url_for('list_returns') }}" class="btn btn-secondary">اذهب إلى إدارة المرتجعات</a>
+            <!-- Card for Managing Payments -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إدارة المدفوعات</h5>
+                    <p class="card-text">عرض وإدارة المدفوعات المختلفة </p>
+                    <a href="{{ url_for('list_payments') }}" class="btn btn-info">اذهب إلى إدارة المدفوعات</a>
+                </div>
+            </div>
+
+            <!-- Card for Managing Returns -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إدارة المرتجعات</h5>
+                    <p class="card-text">عرض وإدارة المرتجعات المختلفة </p>
+                    <a href="{{ url_for('list_returns') }}" class="btn btn-secondary">اذهب إلى إدارة المرتجعات</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background: url('{{ url_for("static", filename="images/skulls-1920x1080.png") }}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .no-products {
+            text-align: center;
+        }
+
+        .no-products img {
+            max-width: 75%; /* 75% of the page width */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+<div class="no-products">
+    <img src="/static/images/18.png" alt="No Products"/> <!-- Replace with your own image -->
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -8,6 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///employees.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+app.secret_key = 'your_secret_key'  # Replace with a real secret key
 
 
 class Employee(db.Model):
@@ -158,26 +159,38 @@ def delete_supplier(id):
 
 @app.route('/')
 def home():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     return render_template('home.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('login'))
 
 
 @app.route('/employees')
 def index():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     employees = Employee.query.all()
     return render_template('index.html', employees=employees)
 
 
-@app.route('/add_employee', methods=['POST'])
-def add_employee():
-    name = request.form.get('name')
-    email = request.form.get('email')
-    phone = request.form.get('phone')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-    new_employee = Employee(name=name, email=email, phone=phone)
-    db.session.add(new_employee)
-    db.session.commit()
-
-    return redirect(url_for('index'))
+        # Check if the username and password are correct
+        if username == 'admin' and password == 'admin':
+            session['logged_in'] = True
+            return redirect(url_for('home'))
+        else:
+            return render_template('404.html')
+    return render_template('login.html')
 
 
 @app.route('/clients')
@@ -249,26 +262,6 @@ def add_invoice():
     return render_template('add_invoice.html', clients=clients)
 
 
-@app.route('/edit_employee/<int:id>', methods=['GET', 'POST'])
-def edit_employee(id):
-    employee = Employee.query.get(id)
-
-    if request.method == 'POST':
-        employee.name = request.form.get('name')
-        employee.email = request.form.get('email')
-        employee.phone = request.form.get('phone')
-        db.session.commit()
-        return redirect(url_for('index'))
-
-
-@app.route('/delete_employee/<int:id>')
-def delete_employee(id):
-    employee = Employee.query.get(id)
-    db.session.delete(employee)
-    db.session.commit()
-    return redirect(url_for('index'))
-
-
 @app.route('/clients/edit/<int:id>', methods=['GET', 'POST'])
 def edit_client(id):
     client = Client.query.get_or_404(id)
@@ -329,7 +322,6 @@ def client_statement(id):
                            total_returns=total_returns,
                            invoice_items=invoice_items, payment_details=payment_details,
                            current_year=datetime.utcnow().year)
-
 
 
 @app.route('/payments')
